@@ -11,7 +11,9 @@ public class Shark {
     public Rectangle rec;
     public boolean didCrash = false;
     public Rectangle recleft;
-    public boolean isCrashing = false;
+    public Rectangle recright;
+    public boolean isCrashingRight = false;
+    public boolean isCrashingLeft = false;
 
 
     public Shark(String pColor, int pXpos, int pYpos) {
@@ -24,6 +26,7 @@ public class Shark {
         height = 100;
         rec = new Rectangle(xpos, ypos, width, height);
         recleft = new Rectangle(xpos, ypos, 10, height);
+        recright = new Rectangle (xpos + width - 10, ypos, 10, height);
 
     }
 
@@ -45,6 +48,7 @@ public class Shark {
         }
         rec = new Rectangle(xpos, ypos, width, height);
         recleft = new Rectangle(xpos, ypos, 10, height);
+        recright = new Rectangle (xpos + width - 10, ypos, 10, height);
 
     }
 
@@ -72,6 +76,7 @@ public class Shark {
        }
             rec = new Rectangle(xpos, ypos, width, height);
             recleft = new Rectangle(xpos, ypos, 10, height);
+            recright = new Rectangle (xpos + width - 10, ypos, 10, height);
 
         }
     }

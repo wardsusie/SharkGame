@@ -25,9 +25,14 @@ public class BasicGameApp implements Runnable {
 
 
     public Image sharkPic;
-    public Image fish1;
-    public Image fish2;
+    public Image orangefishleft;
+    public Image bluefishleft;
     public Image backgroundPic;
+    public Image sharkrightPic;
+    public Image bluefishright;
+    public Image orangefishright;
+    public Image sharkbiteleft;
+    public Image sharkbiteright;
 
 
     //Declare the objects used in the program
@@ -58,17 +63,29 @@ public class BasicGameApp implements Runnable {
         greatwhite.width = 170;
         greatwhite.height = 170;
 
-        fish1 = Toolkit.getDefaultToolkit().getImage("OrangeFish.png");
+        sharkrightPic = Toolkit.getDefaultToolkit().getImage("Sharkright.png");
+        sharkbiteleft = Toolkit.getDefaultToolkit().getImage("Sharkbitingleft.png");
+        sharkbiteright = Toolkit.getDefaultToolkit().getImage("Sharkbitingright.png");
+
+
+
+        orangefishleft = Toolkit.getDefaultToolkit().getImage("OrangeFish.png");
         orangefish = new Shark("orange", 200, 200);
         orangefish.width = 70;
         orangefish.height = 70;
 
+        orangefishright = Toolkit.getDefaultToolkit().getImage("OrangeFishright.png");
+
         backgroundPic = Toolkit.getDefaultToolkit().getImage("Ocean.jpg");
 
-        fish2 = Toolkit.getDefaultToolkit().getImage("BlueFish.png");
+        bluefishleft = Toolkit.getDefaultToolkit().getImage("BlueFish.png");
         bluefish = new Shark ("blue", 200, 200);
         bluefish.width = 60;
         bluefish.height = 60;
+
+        bluefishright = Toolkit.getDefaultToolkit().getImage("BlueFishright.png");
+
+
     } // end BasicGameApp constructor
 
 
@@ -100,24 +117,46 @@ public class BasicGameApp implements Runnable {
 
     public void crash() {
 
-        if (orangefish.rec.intersects(greatwhite.recleft) && orangefish.dx>0 && greatwhite.isCrashing == false) {
-            greatwhite.didCrash = true;
-            greatwhite.isCrashing = true;
+        if (orangefish.rec.intersects(greatwhite.recleft) && orangefish.dx>0 && greatwhite.isCrashingLeft == false && greatwhite.dx < 0) {
+            greatwhite.isCrashingLeft = true;
 
-            if(orangefish.didCrash == true) {
-                orangefish.didCrash = false;
-            } else{
-                orangefish.didCrash = true;
-            }
+//            if(orangefish.didCrash == true) {
+//                orangefish.didCrash = false;
+//            } else{
+//                orangefish.didCrash = true;
+//            }
+            orangefish.didCrash = !orangefish.didCrash;
+
+
             System.out.println("CRASH");
             greatwhite.dx = greatwhite.dx;
             greatwhite.dy = greatwhite.dy;
 //            orangefish.xpos = -100;
 //            orangefish.ypos = -100;
         }
-        if (!orangefish.rec.intersects(greatwhite.recleft) && greatwhite.isCrashing == true){
-            greatwhite.didCrash = false;
-            greatwhite.isCrashing = false;
+        if (!orangefish.rec.intersects(greatwhite.recleft) && greatwhite.isCrashingLeft == true){
+            greatwhite.isCrashingLeft = false;
+
+        }
+
+        if (orangefish.rec.intersects(greatwhite.recright) && orangefish.dx<0 && greatwhite.isCrashingRight == false && greatwhite.dx > 0) {
+            greatwhite.isCrashingRight = true;
+
+//            if(orangefish.didCrash == true) {
+//                orangefish.didCrash = false;
+//            } else{
+//                orangefish.didCrash = true;
+//            }
+            orangefish.didCrash = !orangefish.didCrash;
+
+            System.out.println("CRASH");
+            greatwhite.dx = greatwhite.dx;
+            greatwhite.dy = greatwhite.dy;
+//            orangefish.xpos = -100;
+//            orangefish.ypos = -100;
+        }
+        if (!orangefish.rec.intersects(greatwhite.recright) && greatwhite.isCrashingRight == true){
+            greatwhite.isCrashingRight = false;
 
         }
 
@@ -131,8 +170,6 @@ public class BasicGameApp implements Runnable {
 //        }
 
     }
-
-
 
     //Pauses or sleeps the computer for the amount specified in milliseconds
     public void pause ( int time){
@@ -180,22 +217,42 @@ public class BasicGameApp implements Runnable {
 
         g.drawImage(backgroundPic, 0, 0, WIDTH, HEIGHT, null);
 
+        if (greatwhite.isCrashingLeft == true){
+            g.drawImage(sharkbiteleft, greatwhite.xpos, greatwhite.ypos, greatwhite.width, greatwhite.height, null);
+        } else {
 
-        g.drawImage(sharkPic, greatwhite.xpos, greatwhite.ypos, greatwhite.width, greatwhite.height, null);
+        if(greatwhite.isCrashingRight == true) {
+        g.drawImage(sharkbiteright, greatwhite.xpos, greatwhite.ypos, greatwhite.width, greatwhite.height, null);
+        } else
+            if (greatwhite.dx < 0) {
+                g.drawImage(sharkPic, greatwhite.xpos, greatwhite.ypos, greatwhite.width, greatwhite.height, null);
+            } else {
+                g.drawImage(sharkrightPic, greatwhite.xpos, greatwhite.ypos, greatwhite.width, greatwhite.height, null);
+            }
+        }
+
+
+//        g.drawRect(greatwhite.rec.x, greatwhite.rec.y, greatwhite.rec.width, greatwhite.rec.height);
 
         if (orangefish.didCrash==true){
 //            g.drawImage(fish2, bluefish.xpos,bluefish.ypos, bluefish.width, bluefish.height, null);
-            g.drawImage(fish2, orangefish.xpos, orangefish.ypos, orangefish.width, orangefish.height, null);
-
+            if (orangefish.dx > 0){
+                g.drawImage(bluefishright, orangefish.xpos, orangefish.ypos, orangefish.width, orangefish.height, null);
+            } else {
+                g.drawImage(bluefishleft, orangefish.xpos, orangefish.ypos, orangefish.width, orangefish.height, null);
+            }
 //            g.drawRect(bluefish.rec.x, bluefish.rec.y, bluefish.rec.width, bluefish.rec.height);
-            g.drawRect(orangefish.rec.x, orangefish.rec.y, orangefish.rec.width, orangefish.rec.height);
+//            g.drawRect(orangefish.rec.x, orangefish.rec.y, orangefish.rec.width, orangefish.rec.height);
 
-        } else {
-            g.drawImage(fish1, orangefish.xpos, orangefish.ypos, orangefish.width, orangefish.height, null);
-            g.drawRect(orangefish.rec.x, orangefish.rec.y, orangefish.rec.width, orangefish.rec.height);
+        } else{
+            if (orangefish.dx > 0) {
+                g.drawImage(orangefishright, orangefish.xpos, orangefish.ypos, orangefish.width, orangefish.height, null);
+            } else {
+                g.drawImage(orangefishleft, orangefish.xpos, orangefish.ypos, orangefish.width, orangefish.height, null);
+//            g.drawRect(orangefish.rec.x, orangefish.rec.y, orangefish.rec.width, orangefish.rec.height);
+            }
         }
 
-        g.drawRect(greatwhite.rec.x, greatwhite.rec.y, greatwhite.rec.width, greatwhite.rec.height);
 
 //    if (orangefish.didCrash==false){
 //        g.drawImage (fish1, orangefish.xpos, orangefish.ypos, orangefish.width, orangefish.height, null);
