@@ -34,6 +34,8 @@ public class BasicGameApp implements Runnable {
     public Image sharkbiteleft;
     public Image sharkbiteright;
 
+    public SoundFile song;
+
 
     //Declare the objects used in the program
     //These are things that are made up of more than one variable type
@@ -63,6 +65,7 @@ public class BasicGameApp implements Runnable {
         greatwhite.width = 170;
         greatwhite.height = 170;
 
+
         sharkrightPic = Toolkit.getDefaultToolkit().getImage("Sharkright.png");
         sharkbiteleft = Toolkit.getDefaultToolkit().getImage("Sharkbitingleft.png");
         sharkbiteright = Toolkit.getDefaultToolkit().getImage("Sharkbitingright.png");
@@ -85,6 +88,7 @@ public class BasicGameApp implements Runnable {
 
         bluefishright = Toolkit.getDefaultToolkit().getImage("BlueFishright.png");
 
+        song = new SoundFile("Tape Start.wav");
 
     } // end BasicGameApp constructor
 
@@ -117,8 +121,9 @@ public class BasicGameApp implements Runnable {
 
     public void crash() {
 
-        if (orangefish.rec.intersects(greatwhite.recleft) && orangefish.dx>0 && greatwhite.isCrashingLeft == false && greatwhite.dx < 0) {
+        if (orangefish.rec.intersects(greatwhite.recleft)  && greatwhite.isCrashingLeft == false && greatwhite.dx < 0) {
             greatwhite.isCrashingLeft = true;
+            song.play();
 
 //            if(orangefish.didCrash == true) {
 //                orangefish.didCrash = false;
@@ -136,11 +141,13 @@ public class BasicGameApp implements Runnable {
         }
         if (!orangefish.rec.intersects(greatwhite.recleft) && greatwhite.isCrashingLeft == true){
             greatwhite.isCrashingLeft = false;
+            song.play();
 
         }
 
-        if (orangefish.rec.intersects(greatwhite.recright) && orangefish.dx<0 && greatwhite.isCrashingRight == false && greatwhite.dx > 0) {
+        if (orangefish.rec.intersects(greatwhite.recright)  && greatwhite.isCrashingRight == false && greatwhite.dx > 0) {
             greatwhite.isCrashingRight = true;
+            song.play();
 
 //            if(orangefish.didCrash == true) {
 //                orangefish.didCrash = false;
